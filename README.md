@@ -1,4 +1,4 @@
-![Logo](admin/EZcontrol.png)
+![Logo](admin/xs1.png)
 # ioBroker.xs1
 =================
 ## ioBroker adapter zu EZcontrol XS1 
