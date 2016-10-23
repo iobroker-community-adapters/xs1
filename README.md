@@ -31,8 +31,16 @@
  
   Der Adapter benötigt das async package welches bei Installation automatisch von npm geladen wird.
 
+  Für die neu hinzugefügte Watchdog-Funktion sollte im XS1 ein virtueller Aktuator namens 'Watchdog' kreiert werden.
+  Dieser wird jede Minute umgeschaltet.
+
 ## Changelog
 
+### 0.4.2
+  Watchdog von 4 Minuten implementiert, wenn 4 Minuten kein Signal vom XS1 kommt wird Adapter gestoppt.
+  jede Minute sendet der Adapter ein Signal an den Aktuator 'Watchdog' der dies bestätigen sollte.
+  iobroker sollte den Adapter dann neu starten.
+ 
 ### 0.4.0
   Erster öffentliche Version, kann lesen und Aktuatoren schreiben (Befehle absetzten).
   TODO: Dokumentieren und Batteriestatus polling implementieren.

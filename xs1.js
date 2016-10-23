@@ -401,6 +401,28 @@ adapter.on('ready', function () {
 });
 
 var mtimeout = null;
+var watchdog = null;
+
+function watchUpdate(update) {
+    if (update) { // was this an update ?
+        adapter.log.info("watchUpdate(true)");
+        if (watchdog)
+            clearTimeout(watchdog);
+        watchdog = setTimeout(watchUpdate,4*60*1000);
+        return;
+    }
+    // No update, 4 minutes without data!
+    adapter.log.warn("watchdog will stop XS1 Adapter!");
+
+    adapter.stop();
+}
+
+var wToggle = false;
+function makeWatchDog() {
+    adapter.log.info("makeWatchDog");
+    myXS1.setState("Watchdog",wToggle);
+    wToggle = ! wToggle;
+}
 
 function main() {
 
@@ -482,11 +504,14 @@ function main() {
         }, function(err) {
             adapter.log.info("finished states creation");
             adapter.subscribeStates('*'); // subscribe to states only now
+            watchUpdate(true); // start watchdog
+            setInterval(makeWatchDog,60*1000); // setze Watchdog virtual var !
         });
     });
 
 
     myXS1.on('data',function(msg){
+        watchUpdate(true);
 //        adapter.log.info("Data received "+objToString(msg) );
         if(msg && msg.lname) {
             msg.ack = true;
@@ -512,6 +537,5 @@ function main() {
         }
 
     });
-
 
 }
