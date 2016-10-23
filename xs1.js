@@ -405,7 +405,7 @@ var watchdog = null;
 
 function watchUpdate(update) {
     if (update) { // was this an update ?
-        adapter.log.info("watchUpdate(true)");
+        adapter.log.debug("watchUpdate(true)");
         if (watchdog)
             clearTimeout(watchdog);
         watchdog = setTimeout(watchUpdate,4*60*1000);
