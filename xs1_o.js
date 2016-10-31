@@ -1,22 +1,23 @@
 /**
  *
  * EZcontrol XS1 Adapter
- * v0.4.5
+ *
  */
 
 /* jshint -W097 */// jshint strict:false
 /*jslint node: true */
 "use strict";
 
-//var request =       require('request');
+var request =       require('request');
+var async =         require('async');
 var util =          require('util');
 var http =          require('http');
 
 var EventEmitter =  require('events').EventEmitter;
 
-function _o(obj,level) {    return  util.inspect(obj, false, level || 2, false).replace(/\n/g,' ');}
+function objToString(obj,level) {    return  util.inspect(obj, false, level || 2, false).replace(/\n/g,' ');}
 
-function _J(str) { try { return JSON.parse(str); } catch (e) { return {'error':'JSON Parse Error of:'+str}}} 
+function safeJson(str) { try { return JSON.parse(str); } catch (e) { return {'error':'JSON Parse Error of:'+str}}} 
 
 
 function MyXS1() {
@@ -168,100 +169,12 @@ function MyXS1() {
      
     };
     
-    function pGet(url) {
-        return new Promise((resolve,reject)=> {
-            adapter.log.debug(`pGet: ${url}`);
-            http.get(url, (res) => {
-            let statusCode = res.statusCode;
-            let contentType = res.headers['content-type'];
-            adapter.log.debug(`res: ${statusCode}, ${contentType}`);
-            let error = null;
-            if (statusCode !== 200) {
-                error = new Error(`Request Failed. Status Code: ${statusCode}`);
-    //              } else if (!/^application\/json/.test(contentType)) {
-    //                error = new Error(`Invalid content-type. Expected application/json but received ${contentType}`);
-            }
-            if (error) {
-                res.resume();                 // consume response data to free up memory
-                return reject(error);
-            }
-            
-            res.setEncoding('utf8');
-            let rawData = '';
-            res.on('data', (chunk) => rawData += chunk);
-            res.on('end', () => {
-                if (/^text\/javascript/.test(contentType)) { // XS1 !!!
-                    try {
-                        let data = rawData.trim();
-                        data = data.slice(data.indexOf('(')+1,-1);
-                        resolve(_J(data));
-                    } catch (e) {
-                        resolve(_J('x'));
-                    }
-                } 
-                resolve(rawData);
-            });
-            }).on('error', (e) => reject(e));
-        });
-    }
-
-    function pRetry(retry, fn, arg) {
-        return fn(arg).catch(err => { 
-//            logs(`retry: ${retry}, ${_o(err)}`);
-            if (retry <= 0) {
-                throw err;
-            }
-            return pRetry(retry - 1, fn,arg); 
-        });
-    }
-
-
     that.sendXS1 = function(command,callback) {
-//        var link = that.url+"control?callback=cb&x=" + Date.now() + "&cmd="+command;
-        pRetry(5,pGet,that.url+"control?callback=cb&x=" + Date.now() + "&cmd="+command)
-            .then(obj => {
-                if (obj.error >"") {
-                    that.emit('error',"sendXS1 returned ERROR: " + obj.error + ", "+ link);
-                    return callback && callback(obj.error,[]);
-                } else {
-                    var t =null;
-                    if (/actuator/.test(command))
-                        t = "actuator";
-                    if (/sensor/.test(command))
-                        t = "sensor";
-                    if (!t) {
-                        that.emit('error',obj.type + "= unknown object result from XS1");
-                        obj = [];
-                    } else {
-                        obj = obj[t];    
-                    }
-                
-                    if (Array.isArray(obj)) {
-                        var na =[];
-                        for (var key=0;key < obj.length;++key) {
-                            if (obj[key].type != "disabled") {
-                                obj[key].styp = t;
-                                obj[key].lname = (t==='sensor'? 'Sensors.':'Actuators.')+obj[key].name;
-                                obj[key].number = key+1;
-                                na.push(obj[key]);
-                            }
-                        }
-                        obj = na;
-                    }
-                    callback && callback(null,obj);
-                }
-            })
-            .catch(err => {
-                that.emit('error',err);
-                data = [];
-//                that.emit('xs1response',data);
-                callback && callback(err,data); 
-            });
-/*            
+        var link = that.url+"control?callback=cb&x=" + Date.now() + "&cmd="+command;
         async.retry({times:5,interval:1000}, function(callb,data) {
             request(link, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    var obj = _J(body.trim().slice(3,-1));
+                    var obj = safeJson(body.trim().slice(3,-1));
                     if (obj.error >"") {
                         that.emit('error',"sendXS1 returned ERROR: " + obj.error + ", "+ link);
                         return callb(obj.error,[]);
@@ -305,7 +218,7 @@ function MyXS1() {
             that.emit('xs1response',data);
             callback && callback(err,data); 
         });
-*/
+
     };
 
 
@@ -431,21 +344,6 @@ var adapter = utils.adapter('xs1');
 var myXS1 =     new MyXS1();
 var copylist =  {};
 
-function pSeries(obj,fun) { // fun gets(key,obj,resolve,reject)
-    let newValues = [];
-    let promise = Promise.resolve(null);
-
-    for(let key in obj) {
-//        adapter.log.debug(key);
-        promise = promise.then(() => {
-            return new Promise((resolve,reject) => setTimeout(fun,10,key, obj, resolve, reject));
-        }).then(newValue => newValues.push(newValue));
-    }
-    
-    return promise.then(() => newValues);
-}
-
-
 // is called when adapter shuts down - callback has to be called under any circumstances!
 adapter.on('unload', function (callback) {
     try {
@@ -460,7 +358,7 @@ adapter.on('unload', function (callback) {
 // is called if a subscribed object changes
 adapter.on('objectChange', function (id, obj) {
     // Warning, obj can be null if it was deleted
-    adapter.log.info('objectChange ' + id + ' ' + _o(obj));
+    adapter.log.info('objectChange ' + id + ' ' + objToString(obj));
 });
 
 // is called if a subscribed state changes
@@ -475,9 +373,9 @@ adapter.on('stateChange', function (id, state) {
         var obj = myXS1.names[name];
         var typ = idn[idn.length-2];
         if (typ!=="Actuators") {
-            adapter.log.warn("XS1 cannot set state of Sensor "+name+" to "+ _o(state) );
+            adapter.log.warn("XS1 cannot set state of Sensor "+name+" to "+ objToString(state) );
         } else {
-//            adapter.log.info(util.inspect(obj) + ' set to '+ _o(state));
+//            adapter.log.info(util.inspect(obj) + ' set to '+ objToString(state));
             myXS1.setState(name,state.val);
         }
     }
@@ -534,19 +432,19 @@ function main() {
     myXS1.resetXS1();
     adapter.log.info('config XS1 Addresse: ' + adapter.config.adresse);
 
-    copylist = _J(adapter.config.copylist);
+    copylist = safeJson(adapter.config.copylist);
     if (!copylist)
         copylist = {};
 // my personal one is
 // '{"UWPumpeT2":"UWPumpe","UWPumpe":"UWPumpeT2","UWLicht":"UWLichtT3","UWLichtT3":"UWLicht","GartenLichtT1":"GartenLicht","GartenLicht":"GartenLichtT1"}'
-    adapter.log.info("CopyList = "+_o(copylist));
+    adapter.log.info("CopyList = "+objToString(copylist));
 
     myXS1.on("error",function(msg) {
-        adapter.log.warn('Error message from XS1:'+ _o(msg));
+        adapter.log.warn('Error message from XS1:'+ objToString(msg));
     });
 
     myXS1.on("disconnected",function(msg) {
-        adapter.log.error('Got disconnected from XS1, will restart in 5 sec!'+ _o(msg));
+        adapter.log.error('Got disconnected from XS1, will restart in 5 sec!'+ objToString(msg));
         myXS1.disconnect();
         myXS1.resetXS1();
         if (mtimeout) clearTimeout(mtimeout);
@@ -557,11 +455,9 @@ function main() {
         if(err) {
             return adapter.log.error("Could not start XS1! Err:"+err);
         }
-//        adapter.log.info("XS1 connected "+_o(myXS1.names,1));
-        pSeries(myXS1.names, (n,obj,res,rej) => {
-//        async.forEachOfSeries(myXS1.names,function(o,n,callb)  {
-            var o =     obj[n];
-            adapter.log.info(`Want t add ${n} with ${_o(o)}`);
+//        adapter.log.info("XS1 connected "+objToString(myXS1.names,1));
+        async.forEachOfSeries(myXS1.names,function(o,n,callb)  {
+//            var o =     myXS1.names[n];
 //            var val =   o.value;
             var t =     o.type;
             var c = {
@@ -592,33 +488,31 @@ function main() {
                 o.common = c.common;
                 c.native.init = o;
                 adapter.setObject(c.common.name,c,function(err) {
-                    adapter.log.info(c.common.name+" "+ _o(c));
+                    adapter.log.info(c.common.name+" "+ objToString(c));
                     adapter.setState(c.common.name, { 
                         val:c.native.init.val, 
                         ack:true, 
                         ts:c.native.init.utime*1000
                     },  function(err) {
-//                        callb(null);
-                        res(n);
+                        callb(null);
                     });
                 });
             } else {
                 adapter.log.warn("Undefined type "+t + ' for ' + c.common.name);
-//                callb(null);
-                res(n);
+                callb(null);
             }
-        }).then((err) => {
+        }, function(err) {
             adapter.log.info("finished states creation");
             adapter.subscribeStates('*'); // subscribe to states only now
             watchUpdate(true); // start watchdog
             setInterval(makeWatchDog,60*1000); // setze Watchdog virtual var !
-        }).catch(err => adapter.log.warn(`Error in initialization: ${_o(err)}`));
+        });
     });
 
 
     myXS1.on('data',function(msg){
         watchUpdate(true);
-//        adapter.log.info("Data received "+_o(msg) );
+//        adapter.log.info("Data received "+objToString(msg) );
         if(msg && msg.lname) {
             msg.ack = true;
             msg.q = 0;

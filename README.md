@@ -35,6 +35,8 @@
   Dieser wird jede Minute umgeschaltet.
 
 ## Changelog
+### 0.4.5 
+  Abhängigkeit von 'async' und 'request' entfernt, damit braucht xs1 keine zusätzlichen Module.
 
 ### 0.4.2
   Watchdog von 4 Minuten implementiert, wenn 4 Minuten kein Signal vom XS1 kommt wird Adapter gestoppt.
