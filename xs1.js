@@ -561,7 +561,7 @@ function main() {
         pSeries(myXS1.names, (n,obj,res,rej) => {
 //        async.forEachOfSeries(myXS1.names,function(o,n,callb)  {
             var o =     obj[n];
-            adapter.log.info(`Want t add ${n} with ${_o(o)}`);
+//            adapter.log.debug(`Want t add ${n} with ${_o(o)}`);
 //            var val =   o.value;
             var t =     o.type;
             var c = {
