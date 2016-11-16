@@ -11,11 +11,12 @@
   die am XS1 vergebenen Namen.
 
   Momentan werden keine Spezialinformationen wie Batterielevel unterstützt da diese dem Listener 
-  leider nicht weitergegeben werden. Werde später einen poll-mechanismus dazubauen um diese 
-  Info's alle x Minuten abzufragen und den STATE zu ändern.
+  leider nicht weitergegeben werden. 
 
   Der link ist die gesamte link mit dem man sonst im Heimnetz auf das XS1 zugreifen kann.
   Momentan ist noch kein Passwort-Zugriff implementiert und damit darf auf dem XS1 kein Passwort gesetzt sein!
+
+  Für Sensoren welche im state eine 'Battery low'-Meldung anzeigen wird ein .LOWBAT-State erzeugt. 
 
   Die Copylist erlaubt direktes Gleichschalten zwischen Listener und Aktoren.
   Damit kann man Aktoren zusammenschalten welche ohne im ioBroker scrips schreiben zu müssen.
@@ -25,18 +26,24 @@
 
   Die Syntax ist {"von_a":"auf_b(,auf_c, ...)", "von_b":"auf_c", ....}
   Die runden klammern zeigen dass mehrere Destinationen mit comma getrennt angegeben werden können.
-  Ein Beispiel von mir: {"UWPumpeT2":"UWPumpe","UWPumpe":"UWPumpeT2"}
+  Ein Beispiel von mir: {"UWPumpeT2":"UWPumpe","UWPumpe":"UWPumpeT2","Schalter1":"Licht1,Licht2"}
   Damit wird der Taster (UWPumpeT2) mit der UWPumpe in beide Richtungen gleichgeschalten 
-  und man braucht im ioBroker nur noch einen Aktor verwenden.
- 
-  Der Adapter benötigt das async package welches bei Installation automatisch von npm geladen wird.
-
+  und man braucht im ioBroker nur noch einen Aktor verwenden. 
+  'Schalter1' würde 'Licht1' und 'Licht2' gleichzeitig mitschalten. 
+  
   Für die neu hinzugefügte Watchdog-Funktion sollte im XS1 ein virtueller Aktuator namens 'Watchdog' kreiert werden.
-  Dieser wird jede Minute umgeschaltet.
+  Dieser wird jede Minute umgeschaltet und falls 4 Minuten lan dieser Umschaltvorgang nicht zurückgemeldet wird wird der Adapter neu gestartet.
+
+## Wichtig!
+* Der Adapter benötigt Node >=v4.3! 
+* Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
 
 ## Changelog
-### 0.4.5 
-  Abhängigkeit von 'async' und 'request' entfernt, damit braucht xs1 keine zusätzlichen Module.
+### 0.5.0 
+* LOWBAT für Sensoren mit Battery low state.
+* Abhängigkeit von 'async' und 'request' entfernt, damit braucht xs1 keine zusätzlichen Module mehr.
+* Watchdog mit XS1-Aktuator implementiert.
+* Cleanup der states wenn sie nicht mehr verwendet werden (und z.B. vom XS1 gelöscht werden)
 
 ### 0.4.2
   Watchdog von 4 Minuten implementiert, wenn 4 Minuten kein Signal vom XS1 kommt wird Adapter gestoppt.
