@@ -560,11 +560,13 @@ function main() {
     myXS1.on('data',msg => {
 //        _I("Data received "+_o(msg) );
         if(msg && msg.lname) {
+            const n = msg.lname+"."+msg.name;
             msg.ack = true;
             msg.q = 0;
             if (msg.name == 'Watchdog') 
                 Watchdog.update();
-            adapter.setState(msg.lname+"."+msg.name,msg);
+            _I(`XS1 set ${n} to ${msg.val}`);
+            adapter.setState(n,msg);
             const o = myXS1.names.get(msg.name);
             if (o) {
                 o.oldValue = o.value;
