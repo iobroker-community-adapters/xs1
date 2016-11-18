@@ -14,10 +14,9 @@
         "icon":                     "xs1.png",
         "enabled":                  true,
 	    "extIcon":                  "https://raw.githubusercontent.com/frankjoke/ioBroker.xs1/master/admin/xs1.png",
-	    "keywords":                 ["EZcontrol","XS1", "vis", "GUI", "graphical", "scada"],
+	    "keywords":                 ["EZcontrol","XS1", "FS20", "FS10"],
         "readme":                   "https://github.com/frankjoke/ioBroker.xs1/blob/master/README.md",
         "type":                     "hardware",
-        "restartAdapters":          ["no_vis"]
     },
     "native": {
         "adresse":"http://XS1",
