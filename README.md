@@ -2,8 +2,8 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.xs1.svg)](https://www.npmjs.com/package/iobroker.xs1)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.xs1.svg)](https://www.npmjs.com/package/iobroker.xs1)
-**Tests:** Linux: [![Travis-CI](http://img.shields.io/travis/frankjoke/iobroker.xs1/master.svg)](https://travis-ci.org/frankjoke/iobroker.xs1)
-Windows: Will not work on Windows
+**Tests:** Linux/Mac: [![Travis-CI](http://img.shields.io/travis/frankjoke/iobroker.xs1/master.svg)](https://travis-ci.org/frankjoke/iobroker.xs1)
+Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/frankjoke/iobroker.xs1?branch=master&svg=true)](https://ci.appveyor.com/project/frankjoke/ioBroker-nut/)
 
 
 [![NPM](https://nodei.co/npm/iobroker.xs1.png?downloads=true)](https://nodei.co/npm/iobroker.xs1/)
