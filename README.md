@@ -48,6 +48,10 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/frankjo
 * Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
 
 ## Changelog
+### 0.5.1
+* Adapter test auf Node 4.x und 6.x für Windows und Linux.
+* Fehler beim ersten Einlesen von boolean states korrigiert.
+
 ### 0.5.0 
 * LOWBAT für Sensoren mit Battery low state.
 * Abhängigkeit von 'async' und 'request' entfernt, damit braucht xs1 keine zusätzlichen Module mehr.

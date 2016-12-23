@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "xs1",
-        "version":                  "0.5.0",
+        "version":                  "0.5.1",
         "title":                    "EZcontrol XS1 adapter",
         "desc":                     {
  			             "en": "ioBroker EZcontrol XS1 Adapter",

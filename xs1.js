@@ -484,7 +484,7 @@ function updateStates() {
             c.common.role =r;
             c.common.type = myXS1.getType(t);
             if (c.common.type === 'boolean') {
-                o.val = (o.val === false || o.val === 0) ? false : !!o.val;
+                o.val = (o.value === undefined || o.value === false || o.value === 0) ? false : !!o.value;
                 c.common.unit = "";
             }
             o.common = c.common;
