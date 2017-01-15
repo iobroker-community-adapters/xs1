@@ -14,7 +14,7 @@ const http =          require('http');
 
 const EventEmitter =  require('events').EventEmitter;
 
-function _o(obj,level) {    return  util.inspect(obj, false, level || 2, false).replace(/\n/g,' ');} // Stringify an object until level
+function _O(obj,level) {    return  util.inspect(obj, false, level || 2, false).replace(/\n/g,' ');} // Stringify an object until level
 function _J(str) { try { return JSON.parse(str); } catch (e) { return {'error':'JSON Parse Error of:'+e}}} // Safe JSON parse
 const _N = (a,b,c,d,e) => setTimeout(a,0,b,c,d,e); // Execute after next tick
 function _D(l,v) { adapter.log.debug(l); return v === undefined ? l : v; } // Debug
@@ -27,7 +27,7 @@ function wait(time,arg) { return new Promise((res,rej) => setTimeout(res,time,ar
 
 function pRetryP(nretry, fn, arg) {
     return fn(arg).catch(err => { 
-//            logs(`retry: ${retry}, ${_o(err)}`);
+//            logs(`retry: ${retry}, ${_O(err)}`);
         if (nretry <= 0) {
             throw err;
         }
@@ -36,7 +36,7 @@ function pRetryP(nretry, fn, arg) {
 }
 
 function c2pP(f) {
-//    _D(`c2pP: ${_o(f)}`);
+//    _D(`c2pP: ${_O(f)}`);
     return function () {
         const args = Array.prototype.slice.call(arguments);
         return new Promise((res, rej) => {
@@ -332,7 +332,7 @@ adapter.on('unload', function (callback) {
 });
 
 // is called if a subscribed object changes
-adapter.on('objectChange', (id, obj) =>  _D(`objectChange ${id} ${_o(obj)}`));
+adapter.on('objectChange', (id, obj) =>  _D(`objectChange ${id} ${_O(obj)}`));
 
 // is called if a subscribed state changes
 adapter.on('stateChange', (id, state) => {
@@ -345,7 +345,7 @@ adapter.on('stateChange', (id, state) => {
         const name = idn[idn.length-1];
         const obj = myXS1.names.get(name);
         if (idn[idn.length-2]!=="Actuators") 
-            _W("XS1 cannot set state of Sensor "+name+" to "+ _o(state) );
+            _W("XS1 cannot set state of Sensor "+name+" to "+ _O(state) );
         else 
             myXS1.setState(name,state.val);
     }
@@ -353,7 +353,7 @@ adapter.on('stateChange', (id, state) => {
 
 function processMessage(obj) {
     if (obj && obj.command) {
-        _D(`process Message ${_o(obj)}`);
+        _D(`process Message ${_O(obj)}`);
         switch (obj.command) {
             case 'ping': 
                 // Try to connect to mqtt broker
@@ -426,27 +426,35 @@ const Watchdog = {
 }
 
 const objects = new Map();
-//const pSetState = c2pP(adapter.setState);
-function pSetState(id,val,ack) {
-//    _D(`pSetState: ${id} = ${val} with ${ack}`);
-    return c2pP(adapter.setState)(id,val,ack ? true : false);
+
+function pSetState(id,val) {
+    _D(`pSetState: ${id} = ${typeof val === 'object' && val.hasOwnProperty('val') ? val.val : val}`);
+    return c2pP(adapter.setState)(id,val, true);
 }
 
-function makeState(id,value,st) {
+function changeState(id,value,always) {
+//    _I(`changeState: ${id} = ${value} a=${always}`);
+    return c2pP(adapter.getState)(id)
+        .then(st => !always && st.val == value ? Promise.resolve() : pSetState(id,value), 
+            () => pSetState(id,value))
+
+}
+
+function makeState(id,value,st, always) {  // creates an object and/or set the state value
+    _D(`${id} = ${value} ${always ? ' always' : ''} from ${_O(st)}`);
     if (objects.has(id))
-        return pSetState(id,value,true);
-    _D(`Make State ${id} = ${_o(value)} with ${_o(st)}`) ///TC
+        return changeState(id,value,always);
+    _D(`Make State ${id} = ${_O(value)} with ${_O(st)}`) ///TC
     return  c2pP(adapter.extendObject)(id,st)
         .then(x => {
             objects.set(id,x);
-           return pSetState(id,value,true);
+           return changeState(id,value, always);
         })
-        .catch(err => _D(`MS ${_o(err)}:=extend`,id));
-
+        .catch(err => _D(`MS ${_O(err)}:=extend`,id));
 }
 
 
-function updateStates() {
+function updateStates(always) {
     const tmap = new Set();
     const ain =  adapter.name + '.' + adapter.instance + '.';
     let   temp = [];
@@ -491,7 +499,7 @@ function updateStates() {
             if (o.val === undefined)
                 o.val = o.value;
             c.native.init = o;
-            return makeState(_I(`${c.common.name} = ${_o(c)}`,c.common.name),o.val,c)
+            return makeState(c.common.name,o.val, c, always)
                 .then(obj => {
                     if (o.state && Array.isArray(o.state) && o.state.length>0) {
         //                _D(`Item has a state: '${o.state[0]}'`);
@@ -518,7 +526,7 @@ function updateStates() {
                         };
                         for (let st of o.state)
                             val = val || /low/i.test(st);
-                        return makeState(_I(`${n} = ${val}`,n),val,c);
+                        return makeState(n,val,c,always);
                     }
                     return Promise.resolve();
                 });
@@ -527,11 +535,11 @@ function updateStates() {
             if (tmap.has(item.id.slice(ain.length))) 
                 return Promise.resolve();
             return c2pP(adapter.deleteState)(item.id)
-                .then(x => _D(`Del State: ${item.id}`), err => _D(`Del State err: ${_o(err)}`)) ///TC
+                .then(x => _D(`Del State: ${item.id}`), err => _D(`Del State err: ${_O(err)}`)) ///TC
                 .then(y => c2pP(adapter.delObject)(item.id))
-                .then(x => _D(`Del Object: ${item.id}`), err => _D(`Del Object err: ${_o(err)}`)) ///TC
+                .then(x => _D(`Del Object: ${item.id}`), err => _D(`Del Object err: ${_O(err)}`)) ///TC
             },10))
-        .catch(err => _I(`Update Error: ${_o(err)}`));
+        .catch(err => _I(`Update Error: ${_O(err)}`));
    
 }
 
@@ -543,30 +551,31 @@ function main() {
     _I('config XS1 Addresse: ' + adapter.config.adresse);
 
     copylist = _J(adapter.config.copylist);
-//    _I(`CopyList = ${_o(copylist)}`);
+//    _I(`CopyList = ${_O(copylist)}`);
     if (!copylist || copylist.error)
         copylist = {};
 // my personal one is
 // '{"UWPumpeT2":"UWPumpe","UWPumpe":"UWPumpeT2","UWLicht":"UWLichtT3","UWLichtT3":"UWLicht","GartenLichtT1":"GartenLicht","GartenLicht":"GartenLichtT1"}'
-    _I(`CopyList = ${_o(copylist)}`);
+    _I(`CopyList = ${_O(copylist)}`);
 
-    myXS1.on("error",msg => _W('Error message from XS1:'+ _o(msg)));
+    myXS1.on("error",msg => _W('Error message from XS1:'+ _O(msg)));
 
     myXS1.on("disconnected",msg => {
-        adapter.log.error('Got disconnected from XS1, will restart in 5 sec!'+ _o(msg));
+        adapter.log.error('Got disconnected from XS1, will restart in 5 sec!'+ _O(msg));
         setTimeout(process.exit,2000,56);
     });
 
     myXS1.on('data',msg => {
-//        _I("Data received "+_o(msg) );
+//        _I("Data received "+_O(msg) );
         if(msg && msg.lname) {
             const n = msg.lname+"."+msg.name;
             msg.ack = true;
             msg.q = 0;
             if (msg.name == 'Watchdog') 
                 Watchdog.update();
-            _I(`XS1 set ${n} to ${msg.val}`);
-            adapter.setState(n,msg);
+//            _I(`XS1 set ${n} to ${msg.val}`);
+//            adapter.setState(n,msg);
+            pSetState(n,msg);
             const o = myXS1.names.get(msg.name);
             if (o) {
                 o.oldValue = o.value;
@@ -582,7 +591,7 @@ function main() {
                         if (co != o.newValue)
                             return myXS1.setState(cn,o.newValue);
                         return Promise.resolve();
-                    }).catch(err => _I(`CopyList Err=${_o(err)}`));
+                    }).catch(err => _I(`CopyList Err=${_O(err)}`));
                 }
             }
         }
@@ -590,14 +599,14 @@ function main() {
     });
 
     myXS1.startXS1(adapter.config.adresse)
-        .then(obj => updateStates())
+        .then(obj => updateStates(true)) // Set states on first run
         .then(obj => {
             _I(`Finished state creation. Added totally ${myXS1.names.size} actuators or sensors`);        
             adapter.subscribeStates('*'); // subscribe to states only now
             Watchdog.start(wToggle => myXS1.setState("Watchdog",wToggle));
-            setInterval(updateStates,60*60*1000); // update states every hour
+            setInterval(updateStates,60*60*1000); // update states every hour TODO
         }).catch(err => {
-            _W(`Error in initialization: ${_o(err)}, will stop adapter`);
+            _W(`Error in initialization: ${_O(err)}, will stop adapter`);
             setTimeout(process.exit,2000,57);
         });
 

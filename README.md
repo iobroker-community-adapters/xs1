@@ -48,6 +48,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/frankjo
 * Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
 
 ## Changelog
+### 0.5.2
+* Update variables list and values from XS1 but change values only if they are different than in state not to create false state updates
+
 ### 0.5.1
 * Adapter test auf Node 4.x und 6.x für Windows und Linux.
 * Fehler beim ersten Einlesen von boolean states korrigiert.
