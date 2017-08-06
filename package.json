@@ -1,6 +1,6 @@
 {
   "name": "iobroker.xs1",
-  "version": "0.5.2",
+  "version": "1.0.0",
   "description": "ioBroker EZcontrol XS1 Adapter",
   "author": {
     "name": "Frank Joke",

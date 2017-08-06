@@ -71,9 +71,9 @@ function MyXS1() {
     
     var roles = {    
         "switch":               ["switch","timerswitch","sound","remotecontrol"],
-        "sensor":               ["door","dooropen","motion","waterdetector","window"],
+        "sensor":               ["door","doorbell","dooropen","motion","waterdetector","window"],
         "value.temperature":    ["temperature","number"],
-        "value.brightness":     ["light"],
+        "value.brightness":     ["light","dimmer"],
         "value.humidity":       ["hygrometer"],
         "value":                ["counter","rainintensity"],
         "direction":            ["winddirection"],
