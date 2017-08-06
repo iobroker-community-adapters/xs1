@@ -75,7 +75,7 @@ function MyXS1() {
         "value.temperature":    ["temperature","number"],
         "value.brightness":     ["light","dimmer"],
         "value.humidity":       ["hygrometer"],
-        "value":                ["counter","rainintensity"],
+        "value":                ["counter","pwr_consump","rainintensity"],
         "direction":            ["winddirection"],
         "value.speed":          ["windspeed"],
         "level.blind":          ["shutter"],
@@ -470,7 +470,7 @@ function updateStates(always) {
                 type: 'state',
                 common: {
                     name:   o.lname,
-                    type:   'boolean',
+                    type:   'number',
                     unit:   o.unit,
                     read:   true,
                     write:  true,
@@ -484,10 +484,10 @@ function updateStates(always) {
             };
             if (c.native.isSensor)
                 c.common.write = false;
-            const r = myXS1.getRole(t);
+            let r = myXS1.getRole(t);
             if (!r) {
-                _W("Undefined type "+t + ' for ' + c.common.name);
-                return Promise.resolve(n);
+                _D("Undefined type "+t + ' for ' + c.common.name + ", using 'value' as role");
+                r = "value";
             }
             c.common.role =r;
             c.common.type = myXS1.getType(t);
