@@ -49,7 +49,8 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/frankjo
 
 ## Changelog
 ### 1.0.0
-* Update accepted device list and test for  node v 8
+* Update accepted device list and test for node v 8
+* Tarvis updated to test right repository
 
 ### 0.5.2
 * Update variables list and values from XS1 but change values only if they are different than in state not to create false state updates
