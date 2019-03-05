@@ -8,6 +8,10 @@
       "de": "ioBroker EZcontrol XS1 Adapter",
       "ru": "ioBroker EZcontrol XS1 драйвер как образец"
     },
+    "authors": [
+      "frankjoke <frankjoke@hotmail.com>"
+    ],
+
     "platform": "Javascript/Node.js",
     "mode": "daemon",
     "loglevel": "info",
@@ -16,25 +20,21 @@
     "extIcon": "https://raw.githubusercontent.com/frankjoke/ioBroker.xs1/master/admin/xs1.png",
     "keywords": ["EZcontrol", "XS1", "FS20", "FS10"],
     "readme": "https://github.com/frankjoke/ioBroker.xs1/blob/master/README.md",
-    "type": "iot-systems"
+    "type": "iot-systems",
+    "news": {
+      "1.0.9": {
+        "en": "BETA: for Admin3 and compact mode compatibility",
+        "de": "BETA: für Admin3 und Compact-Mode Kompatibilität"
+      }
+    }
   },
   "native": {
     "adresse": "http://XS1",
     "copylist": "{}"
   },
-  "news": {
-    "1.0.9": {
-      "en": "BETA: for Admin3 and compact mode compatibility",
-      "de": "BETA: für Admin3 und Compact-Mode Kompatibilität"
-    }
-  },
   "objects": [
 
   ],
-  "authors": [
-    "frankjoke <frankjoke@hotmail.com>"
-  ],
-
   "instanceObjects": [{
       "_id": "Actuators",
       "type": "channel",
