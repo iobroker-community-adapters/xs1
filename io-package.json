@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "xs1",
-        "version":                  "1.0.2",
+        "version":                  "1.0.9",
         "title":                    "EZcontrol XS1 adapter",
         "desc":                     {
  			             "en": "ioBroker EZcontrol XS1 Adapter",
@@ -22,7 +22,13 @@
         "adresse":"http://XS1",
         "copylist": "{}"
     },
-    "objects": [
+    "news": {
+      "1.0.9": {
+          "en": "BETA: for Admin3 and compact mode compatibility",
+          "de": "BETA: für Admin3 und Compact-Mode Kompatibilität"
+      }
+  },
+  "objects": [
 
     ],
     "instanceObjects": [

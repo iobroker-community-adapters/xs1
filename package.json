@@ -1,6 +1,6 @@
 {
   "name": "iobroker.xs1",
-  "version": "1.0.2",
+  "version": "1.0.9",
   "description": "ioBroker EZcontrol XS1 Adapter",
   "author": {
     "name": "Frank Joke",
@@ -25,7 +25,9 @@
     "type": "git",
     "url": "https://github.com/frankjoke/ioBroker.xs1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@iobroker/adapter-core": "^1.0.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-replace": "^0.9.3",
