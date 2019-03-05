@@ -354,7 +354,7 @@ function updateStates(always) {
                 o.val = o.value;
             c.native.init = o;
             //            A.If('Start makeState with %O = %s', c, o.val);
-            return A.makeState(c, o.val, true, always, )
+            return A.makeState(c, o.val, true, always)
                 .then(() => {
                     if (o.state && Array.isArray(o.state) && o.state.length > 0) {
                         //                A.D(`Item has a state: '${o.state[0]}'`);
