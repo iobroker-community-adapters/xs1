@@ -1,15 +1,13 @@
+# ioBroker.xs1
+
 ![Logo](admin/xs1.png)
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.xs1.svg)](https://www.npmjs.com/package/iobroker.xs1)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.xs1.svg)](https://www.npmjs.com/package/iobroker.xs1)
-**Tests:** Linux/Mac: [![Travis-CI](http://img.shields.io/travis/frankjoke/ioBroker.xs1/master.svg)](https://travis-ci.org/frankjoke/ioBroker.xs1)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/frankjoke/ioBroker.xs1?branch=master&svg=true)](https://ci.appveyor.com/project/frankjoke/ioBroker-xs1/)
-
+**Tests:** Linux/Mac/Windows: [![Travis-CI](http://img.shields.io/travis/frankjoke/ioBroker.xs1/master.svg)](https://travis-ci.org/frankjoke/ioBroker.xs1)
 
 [![NPM](https://nodei.co/npm/iobroker.xs1.png?downloads=true)](https://nodei.co/npm/iobroker.xs1/)
 
-# ioBroker.xs1
-=================
 ## ioBroker adapter zu EZcontrol XS1 
   Der Adapter kommuniziert über die RestAPI des XS1 und hängt sich auch 
   an das XS1 als listener um alle Änderungen sofort an den ioBroker weiterzuleiten.
