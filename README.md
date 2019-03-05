@@ -42,10 +42,15 @@
   Dieser wird jede Minute umgeschaltet und falls 4 Minuten lan dieser Umschaltvorgang nicht zurückgemeldet wird wird der Adapter neu gestartet.
 
 ## Wichtig!
-* Der Adapter benötigt Node >=v4.3! 
+* Der Adapter benötigt Node >=v6.*! 
 * Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
 
 ## Changelog
+
+### 1.1.0
+* Added Admin3 capabities and compact mode to xs1
+* Adapter runs only with node>=6.0
+
 ### 1.0.2
 * Added more sensors. All unknown types will use 'value' role. This can lead to problems if actual type is a boolean, but should work otherwise. As a result all sensors should be listed now.
 

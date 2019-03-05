@@ -396,8 +396,12 @@ function main() {
 
     // The adapters config (in the instance object everything under the attribute "native") is accessible via
     // adapter.config:
-    myXS1.resetXS1();
+    if (A.C.adresse.endsWith('!')) {
+        A.C.adresse = A.C.adresse.slice(0,-1).trim();
+        A.debug = true;
+    }
     A.I('config XS1 Addresse: ' + A.C.adresse);
+    myXS1.resetXS1();
 
     copylist = A.J(A.C.copylist);
     //    A.I(`CopyList = ${A.O(copylist)}`);
