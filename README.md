@@ -8,7 +8,8 @@
 
 [![NPM](https://nodei.co/npm/iobroker.xs1.png?downloads=true)](https://nodei.co/npm/iobroker.xs1/)
 
-## ioBroker adapter zu EZcontrol XS1 
+## ioBroker adapter zu EZcontrol XS1
+
   Der Adapter kommuniziert über die RestAPI des XS1 und hängt sich auch 
   an das XS1 als listener um alle Änderungen sofort an den ioBroker weiterzuleiten.
   Befehle vom ioBroker werden zuerst mit ack=false gesendet und wenn etwas vom Listener kommt
@@ -41,24 +42,29 @@
   Für die neu hinzugefügte Watchdog-Funktion sollte im XS1 ein virtueller Aktuator namens 'Watchdog' kreiert werden.
   Dieser wird jede Minute umgeschaltet und falls 4 Minuten lan dieser Umschaltvorgang nicht zurückgemeldet wird wird der Adapter neu gestartet.
 
-## Wichtig!
+## Wichtig!-
+
 * Der Adapter benötigt Node >=v6.*! 
 * Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
 
 ## Changelog
 
 ### 1.1.0
+
 * Added Admin3 capabities and compact mode to xs1
 * Adapter runs only with node>=6.0
 
 ### 1.0.2
+
 * Added more sensors. All unknown types will use 'value' role. This can lead to problems if actual type is a boolean, but should work otherwise. As a result all sensors should be listed now.
 
 ### 1.0.0
+
 * Update accepted device list and test for node v 8
 * Tarvis updated to test right repository
 
 ### 0.5.2
+
 * Update variables list and values from XS1 but change values only if they are different than in state not to create false state updates
 
 ### 0.5.1
