@@ -51,8 +51,8 @@
 
 ### 1.1.0
 
-* Added Admin3 capabities and compact mode to xs1
-* Adapter runs only with node>=6.0
+* Added Admin3 capabities and support for new js-controller
+* Adapter runs only with node>=8.16
 
 ### 1.0.2
 

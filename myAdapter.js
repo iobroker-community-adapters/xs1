@@ -216,12 +216,20 @@ class MyAdapter {
 
 
         this.Df('Adapter %s starting.', this.ains);
-        this.getObjectList = this.c2p(adapter.objects.getObjectList);
-        this.getForeignState = this.c2p(adapter.getForeignState);
-        this.setForeignState = this.c2p(adapter.setForeignState);
-        this.getState = this.c2p(adapter.getState);
-        this.setState = this.c2p(adapter.setState);
-        this.getStates = this.c2p(adapter.getStates);
+        this.getObjectList = adapter.getObjectListAsync ?
+        adapter.getObjectListAsync.bind(adapter) :
+        this.c2p(adapter.objects.getObjectList).bind(adapter.objects);
+    this.getForeignState = adapter.getForeignStateAsync.bind(adapter);
+    this.setForeignState = adapter.setForeignStateAsync.bind(adapter);
+    this.getState = adapter.getStateAsync.bind(adapter);
+    this.setState = adapter.setStateAsync.bind(adapter);
+    this.getStates = adapter.getStatesAsync.bind(adapter);
+// this.getObjectList = this.c2p(adapter.objects.getObjectList);
+//         this.getForeignState = this.c2p(adapter.getForeignState);
+//         this.setForeignState = this.c2p(adapter.setForeignState);
+//         this.getState = this.c2p(adapter.getState);
+//         this.setState = this.c2p(adapter.setState);
+//         this.getStates = this.c2p(adapter.getStates);
 
         return this.getStates('*').then(res => {
                 states = res;

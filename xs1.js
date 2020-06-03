@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /**
  *
  * EZcontrol XS1 Adapter
@@ -311,15 +312,17 @@ A.unload = () => {
     myXS1.stop();
 };
 
-function updateStates(always) {
+async function updateStates(always) {
     const tmap = new Set();
     let temp = [];
-    A.D(`Will update states fropm XS1 and delete unused or create low battery warnings`);
+    A.D(`Will update states fropm XS1 and delete unused and create low battery warnings`);
     A.clearStates();
-    return myXS1.sendXS1("get_list_actuators")
-        .then(res => A.wait(100, temp = res))
-        .then(() => myXS1.sendXS1("get_list_sensors"))
-        .then(sensors => A.seriesOf(temp.concat(sensors), o => {
+    try {
+        temp = await myXS1.sendXS1("get_list_actuators");
+        await A.wait(100);
+        const sensors = await myXS1.sendXS1("get_list_sensors");
+        temp = temp.concat(sensors);
+        for (const o of temp) {
             tmap.add(o.lname);
             myXS1.names.set(o.name, o);
             const t = o.type;
@@ -354,50 +357,51 @@ function updateStates(always) {
                 o.val = o.value;
             c.native.init = o;
             //            A.If('Start makeState with %O = %s', c, o.val);
-            return A.makeState(c, o.val, true, always)
-                .then(() => {
-                    if (o.state && Array.isArray(o.state) && o.state.length > 0) {
-                        //                A.D(`Item has a state: '${o.state[0]}'`);
-                        let val = false;
-                        const n = o.lname + '.LOWBAT';
-                        tmap.add(n);
-                        myXS1.names.set(o.name + '.LOWBAT', o);
-                        const c = {
-                            id: n,
-                            name: n,
-                            type: 'boolean',
-                            unit: undefined,
-                            read: true,
-                            write: false,
-                            role: 'indicator.battery',
-                            native: {
-                                //                                desc: JSON.stringify(o),
-                                isSensor: true,
-                                xs1Id: o.id,
-                                //                                src: o
-                            }
-                        };
-                        for (let st of o.state)
-                            val = val || (/low/i).test(st);
-                        return A.makeState(c, val, true, always);
+            A.D(`Will makestate I ${c}`);
+            await A.makeState(c, o.val, true, always);
+            if (o.state && Array.isArray(o.state) && o.state.length > 0) {
+                //                A.D(`Item has a state: '${o.state[0]}'`);
+                let val = false;
+                const n = o.lname + '.LOWBAT';
+                tmap.add(n);
+                myXS1.names.set(o.name + '.LOWBAT', o);
+                const c = {
+                    id: n,
+                    name: n,
+                    type: 'boolean',
+                    unit: undefined,
+                    read: true,
+                    write: false,
+                    role: 'indicator.battery',
+                    native: {
+                        //                                desc: JSON.stringify(o),
+                        isSensor: true,
+                        xs1Id: o.id,
+                        //                                src: o
                     }
-                    return A.resolve();
-                });
-        }, 5))
-        .then(() => A.cleanup())
-        .catch(err => A.I(`Update Error: ${A.O(err)}`));
+                };
+                for (let st of o.state)
+                    val = val || (/low/i).test(st);
+                A.D(`Will makestate II ${c}`);
+                await A.makeState(c, val, true, always);
+            }
+        }
+        A.cleanup();
+    } catch (err) {
+        A.I(`Update Error: ${A.O(err)}`);
+    }
 
 }
 
 
-function main() {
+async function main() {
 
-//    A.debug = true;
+    //    A.debug = true;
 
     // The adapters config (in the instance object everything under the attribute "native") is accessible via
     // adapter.config:
     if (A.C.adresse.endsWith('!')) {
-        A.C.adresse = A.C.adresse.slice(0,-1).trim();
+        A.C.adresse = A.C.adresse.slice(0, -1).trim();
         A.debug = true;
     }
     A.I('config XS1 Addresse: ' + A.C.adresse);
@@ -413,50 +417,50 @@ function main() {
 
     myXS1.on("error", msg => A.W('Error message from XS1:' + A.O(msg)));
 
-    myXS1.on('data', msg => {
-        //        A.I("Data received "+A.O(msg) );
-        if (msg && msg.lname) {
-            const n = msg.lname + "." + msg.name;
-            msg.ack = true;
-            msg.q = 0;
-            if (msg.name == 'Watchdog')
-                myXS1.update();
-            //            A.I(`XS1 set ${n} to ${msg.val}`);
-            //            adapter.setState(n,msg);
-            A.D(`pSetState: ${n} = ${typeof msg === 'object' && msg.hasOwnProperty('val') ? msg.val : msg}`);
-            A.setState(n, msg, true);
-            const o = myXS1.names.get(msg.name);
-            if (o) {
-                o.oldValue = o.value;
-                o.newValue = o.value = msg.val;
-                let cl = copylist[msg.name];
-                if (cl) {
-                    cl = cl.split(',').map(x => x.trim());
-                    A.seriesOf(cl, cn => {
-                        let co = myXS1.names.get(cn).value;
-                        if (typeof o.newValue === 'boolean' && typeof co === 'number')
-                            co = co != 0;
-                        A.I(cn + " old " + co + " is new " + o.newValue);
-                        if (co != o.newValue)
-                            return myXS1.setState(cn, o.newValue);
-                        return A.resolve();
-                    }).catch(err => A.I(`CopyList Err=${A.O(err)}`));
+    myXS1.on('data', async msg => {
+            //        A.I("Data received "+A.O(msg) );
+            if (msg && msg.lname) {
+                const n = msg.lname + "." + msg.name;
+                msg.ack = true;
+                msg.q = 0;
+                if (msg.name == 'Watchdog')
+                    myXS1.update();
+                //            A.I(`XS1 set ${n} to ${msg.val}`);
+                //            adapter.setState(n,msg);
+                A.D(`pSetState: ${n} = ${msg.hasOwnProperty('val') ? msg.val : msg}`);
+                A.setState(n, msg.val, true);
+                const o = myXS1.names.get(msg.name);
+                if (o) {
+                    o.oldValue = o.value;
+                    o.newValue = o.value = msg.val;
+                    let cl = copylist[msg.name];
+                    if (cl) try {
+                        cl = cl.split(',').map(x => x.trim());
+                        for (const cn of cl) {
+                            let co = myXS1.names.get(cn).value;
+                            if (typeof o.newValue === 'boolean' && typeof co === 'number')
+                                co = co != 0;
+                            A.I(cn + " old " + co + " is new " + o.newValue);
+                            if (co != o.newValue)
+                                await myXS1.setState(cn, o.newValue);
+                        }
+                    } catch (err) {
+                        A.I(`CopyList Err=${A.O(err)}`)
+                    };
                 }
             }
         }
 
-    });
-
-    myXS1.startXS1(A.C.adresse)
-        //    .then(() => A.clearStates())
-        .then(() => updateStates(true)) // Set states on first run
-        .then(() => {
-            A.I(`Finished state creation. Added totally ${myXS1.names.size} actuators or sensors`);
-            myXS1.start(wToggle => myXS1.setState("Watchdog", wToggle));
-            A.timer = setInterval(updateStates, 60 * 60 * 1000); // update states every hour TODO
-        }).catch(err => {
-            A.W(`Error in initialization: ${A.O(err)}, will stop adapter`);
-            //            setTimeout(process.exit, 2000, 57);
-        });
+    );
+    try {
+        await myXS1.startXS1(A.C.adresse);
+        await updateStates(true); // Set states on first run
+        A.I(`Finished state creation. Added totally ${myXS1.names.size} actuators or sensors`);
+        myXS1.start(wToggle => myXS1.setState("Watchdog", wToggle));
+        A.timer = setInterval(updateStates, 6 * 60 * 60 * 1000); // update states every 6 hours TODO
+    } catch (err) {
+        A.W(`Error in initialization: ${A.O(err)}, will stop adapter`);
+        A.stop();
+    }
 
 }

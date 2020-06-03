@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "xs1",
-    "version": "1.0.9",
+    "version": "1.1.0",
     "title": "EZcontrol XS1 adapter",
     "desc": {
       "en": "ioBroker EZcontrol XS1 Adapter",
@@ -22,9 +22,9 @@
     "readme": "https://github.com/frankjoke/ioBroker.xs1/blob/master/README.md",
     "type": "iot-systems",
     "news": {
-      "1.0.9": {
-        "en": "BETA: for Admin3 and compact mode compatibility",
-        "de": "BETA: für Admin3 und Compact-Mode Kompatibilität"
+      "1.1.0": {
+        "en": "Update for Admin3 and new js-controllers compatibility",
+        "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
       }
     }
   },
