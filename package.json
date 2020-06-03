@@ -26,6 +26,7 @@
     "url": "https://github.com/frankjoke/ioBroker.xs1"
   },
   "dependencies": {
+    "@frankjoke/myadapter": "https://github.com/frankjoke/myAdapter/tarball/master",
     "@iobroker/adapter-core": "^1.0.3"
   },
   "scripts": {
