@@ -25,6 +25,9 @@
     "type": "git",
     "url": "https://github.com/frankjoke/ioBroker.xs1"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0"
   },
