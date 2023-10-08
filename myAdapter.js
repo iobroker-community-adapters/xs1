@@ -264,8 +264,9 @@ class MyAdapter {
                 }, err => this.E('err from getObjectList: ' + err, 0))
                 .then(len => MyAdapter.D(`${adapter.name} received ${len} objects and ${this.ownKeys(states).length} states, with config ${this.ownKeys(adapter.config)}`), (err => this.W(`Error in adapter.ready: ${err}`)))
                 .then(() => allStates ? this.c2p(adapter.subscribeForeignStates)('*') : null)
-                .then(() => stateChange ? MyAdapter.c2p(adapter.subscribeStates)('*') : null)
-                //                .then(() => objChange ? MyAdapter.c2p(adapter.subscribeObjects)('*').then(a => MyAdapter.I('eso '+a),a => MyAdapter.I('eso '+a)) : MyAdapter.resolve())
+                //.then(() => stateChange ? MyAdapter.c2p(adapter.subscribeStates)('*') : null)
+                .then(() => stateChange ? adapter.subscribeStates('*') : null)
+                //.then(() => objChange ? MyAdapter.c2p(adapter.subscribeObjects)('*').then(a => MyAdapter.I('eso '+a),a => MyAdapter.I('eso '+a)) : MyAdapter.resolve())
                 .then(() => objChange ? adapter.subscribeObjects('*') : null)
             ).then(() => this.I(aname + ' initialization started...'), e => this.stop(this.E(aname + ' Initialization Error:' + this.F(e))));
     }
