@@ -101,6 +101,7 @@
 ## License
 The MIT License (MIT)
 
+Copyright (c) 2023 iobroker-community-adapters
 Copyright (c) 2016 Frank Joke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
