@@ -1,48 +1,61 @@
 {
   "common": {
     "name": "xs1",
-    "version": "1.1.0",
+    "version": "1.1.1-alpha.0",
     "news": {
-        "1.1.0": {
-          "en": "Update for Admin3 and new js-controllers compatibility",
-          "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
-        }
+      "1.1.1-alpha.0": {
+        "en": "A crash due to incorrect bindings has been fixed. [#1]\nStandard testenvironment has been added\nDependencies have been updated",
+        "de": "Ein Absturz durch falsche Bindungen wurde behoben. #[1]\nStandard-Testenvironment wurde hinzugefügt\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Сбой из-за неправильных привязок был зафиксирован. #[1]\nДобавлена стандартная проверка\nВ зависимости были обновлены",
+        "pt": "Um acidente devido a ligações incorretas foi corrigido. #[1]\nTestnnvironment padrão foi adicionado\nAs dependências foram atualizadas",
+        "nl": "Een crash door onjuiste bindingen is opgelost. _\nStandaard testennvironment is toegevoegd\nAfhankelijkheid",
+        "fr": "Un accident dû à des liaisons incorrectes a été corrigé. #[1]\nTestennvironment standard a été ajouté\nLes dépendances ont été mises à jour",
+        "it": "È stato fissato un crash a causa di attacchi errati. #\nÈ stato aggiunto un testone standard\nLe dipendenze sono state aggiornate",
+        "es": "Se ha solucionado un accidente debido a uniones incorrectas. #[1]\nSe ha añadido testenvironment estándar\nSe han actualizado las dependencias",
+        "pl": "Ze względu na nieprawidłowe wiązanie zostało ustalone. (odcinek 1)\nDodano testenvironment\nZależności zostały zaktualizowane",
+        "uk": "Зафіксовано аварійне аварійне з’єднання. #2\nДодано стандартне дослідження\nОновлено залежність",
+        "zh-cn": "由于不正确的约束力,事故已经确定。 行动[1]\n增加了标准试验\n已更新了属地"
+      },
+      "1.1.0": {
+        "en": "Update for Admin3 and new js-controllers compatibility",
+        "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
+      }
     },
     "title": "EZcontrol XS1 adapter",
     "titleLang": {
-        "en": "EZcontrol XS1 adapter",
-        "de": "EZcontrol XS1 Adapter",
-        "ru": "EZcontrol XS1 адаптер",
-        "pt": "Adaptador EZcontrol XS1",
-        "nl": "XS1 adapter",
-        "fr": "Adaptateur EZcontrol XS1",
-        "it": "Adattatore EZcontrol XS1",
-        "es": "Adaptador EZcontrol XS1",
-        "pl": "EZPR XS1",
-        "uk": "Адаптер EZcontrol XS1",
-        "zh-cn": "EZ控制 XS1适应者"
+      "en": "EZcontrol XS1 adapter",
+      "de": "EZcontrol XS1 Adapter",
+      "ru": "EZcontrol XS1 адаптер",
+      "pt": "Adaptador EZcontrol XS1",
+      "nl": "XS1 adapter",
+      "fr": "Adaptateur EZcontrol XS1",
+      "it": "Adattatore EZcontrol XS1",
+      "es": "Adaptador EZcontrol XS1",
+      "pl": "EZPR XS1",
+      "uk": "Адаптер EZcontrol XS1",
+      "zh-cn": "EZ控制 XS1适应者"
     },
     "desc": {
-        "en": "ioBroker EZcontrol XS1 Adapter",
-        "de": "ioBroker EZcontrol XS1 Adapter",
-        "ru": "ioBroker EZcontrol XS1 адаптер",
-        "pt": "adaptador EZcontrol XS1 do ioBroker",
-        "nl": "quality over Quantity (QoQ) Releases Vertaling:",
-        "fr": "adaptateur EZcontrol XS1",
-        "it": "ioBroker EZcontrol XS1 adattatore",
-        "es": "ioBroker EZcontrol XS1 Adaptador",
-        "pl": "ioBroker EZ Control XS1 Adapter",
-        "uk": "ioBroker EZcontrol S1 адаптер",
-        "zh-cn": "io Broker EZ控制 XS1 Adapter"
+      "en": "ioBroker EZcontrol XS1 Adapter",
+      "de": "ioBroker EZcontrol XS1 Adapter",
+      "ru": "ioBroker EZcontrol XS1 адаптер",
+      "pt": "adaptador EZcontrol XS1 do ioBroker",
+      "nl": "quality over Quantity (QoQ) Releases Vertaling:",
+      "fr": "adaptateur EZcontrol XS1",
+      "it": "ioBroker EZcontrol XS1 adattatore",
+      "es": "ioBroker EZcontrol XS1 Adaptador",
+      "pl": "ioBroker EZ Control XS1 Adapter",
+      "uk": "ioBroker EZcontrol S1 адаптер",
+      "zh-cn": "io Broker EZ控制 XS1 Adapter"
     },
     "authors": [
       "frankjoke <frankjoke@hotmail.com>"
     ],
     "keywords": [
-        "EZcontrol", 
-        "XS1", 
-        "FS20", 
-        "FS10"
+      "EZcontrol",
+      "XS1",
+      "FS20",
+      "FS10"
     ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
@@ -72,10 +85,9 @@
     "adresse": "http://XS1",
     "copylist": "{}"
   },
-  "objects": [
-
-  ],
-  "instanceObjects": [{
+  "objects": [],
+  "instanceObjects": [
+    {
       "_id": "Actuators",
       "type": "channel",
       "common": {
