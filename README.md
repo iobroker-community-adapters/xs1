@@ -52,7 +52,7 @@
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.1.1-alpha.0 (2023-10-08)
 
 * (mcm1957) A crash due to incorrect bindings has been fixed. [#1]
 * (mcm1957) Standard testennvironment has been added
@@ -90,7 +90,7 @@
   Watchdog von 4 Minuten implementiert, wenn 4 Minuten kein Signal vom XS1 kommt wird Adapter gestoppt.
   jede Minute sendet der Adapter ein Signal an den Aktuator 'Watchdog' der dies bestätigen sollte.
   iobroker sollte den Adapter dann neu starten.
- 
+
 ### 0.4.0
   Erster öffentliche Version, kann lesen und Aktuatoren schreiben (Befehle absetzten).
   TODO: Dokumentieren und Batteriestatus polling implementieren.
