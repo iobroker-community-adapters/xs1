@@ -48,6 +48,15 @@
 * Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
 
 ## Changelog
+<!--
+    Placeholder for the next version (at the beginning of the line):
+    ### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+
+* (mcm1957) A crash due to incorrect bindings has been fixed. [#1]
+* (mcm1957) Standard testennvironment has been added
+* (mcm1957) Dependencies have been updated
 
 ### 1.1.0
 
