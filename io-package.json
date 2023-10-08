@@ -2,31 +2,71 @@
   "common": {
     "name": "xs1",
     "version": "1.1.0",
+    "news": {
+        "1.1.0": {
+          "en": "Update for Admin3 and new js-controllers compatibility",
+          "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
+        }
+    },
     "title": "EZcontrol XS1 adapter",
+    "titleLang": {
+        "en": "EZcontrol XS1 adapter",
+        "de": "EZcontrol XS1 Adapter",
+        "ru": "EZcontrol XS1 адаптер",
+        "pt": "Adaptador EZcontrol XS1",
+        "nl": "XS1 adapter",
+        "fr": "Adaptateur EZcontrol XS1",
+        "it": "Adattatore EZcontrol XS1",
+        "es": "Adaptador EZcontrol XS1",
+        "pl": "EZPR XS1",
+        "uk": "Адаптер EZcontrol XS1",
+        "zh-cn": "EZ控制 XS1适应者"
+    },
     "desc": {
-      "en": "ioBroker EZcontrol XS1 Adapter",
-      "de": "ioBroker EZcontrol XS1 Adapter",
-      "ru": "ioBroker EZcontrol XS1 драйвер как образец"
+        "en": "ioBroker EZcontrol XS1 Adapter",
+        "de": "ioBroker EZcontrol XS1 Adapter",
+        "ru": "ioBroker EZcontrol XS1 адаптер",
+        "pt": "adaptador EZcontrol XS1 do ioBroker",
+        "nl": "quality over Quantity (QoQ) Releases Vertaling:",
+        "fr": "adaptateur EZcontrol XS1",
+        "it": "ioBroker EZcontrol XS1 adattatore",
+        "es": "ioBroker EZcontrol XS1 Adaptador",
+        "pl": "ioBroker EZ Control XS1 Adapter",
+        "uk": "ioBroker EZcontrol S1 адаптер",
+        "zh-cn": "io Broker EZ控制 XS1 Adapter"
     },
     "authors": [
       "frankjoke <frankjoke@hotmail.com>"
     ],
+    "keywords": [
+        "EZcontrol", 
+        "XS1", 
+        "FS20", 
+        "FS10"
+    ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "loglevel": "info",
+    "main": "xs1.js",
     "icon": "xs1.png",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/frankjoke/ioBroker.xs1/master/admin/xs1.png",
-    "keywords": ["EZcontrol", "XS1", "FS20", "FS10"],
     "readme": "https://github.com/frankjoke/ioBroker.xs1/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
     "type": "iot-systems",
-    "news": {
-      "1.1.0": {
-        "en": "Update for Admin3 and new js-controllers compatibility",
-        "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "pull",
+    "dependencies": [
+      {
+        "js-controller": ">=4.0.24"
       }
-    }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.1.13"
+      }
+    ]
   },
   "native": {
     "adresse": "http://XS1",
