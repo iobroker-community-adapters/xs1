@@ -52,7 +52,7 @@ This is switched every minute and if this switching process is not reported back
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.1.2 (2023-10-09)
 * (mcm1957) Adapter requires node 16 or newer now
 * (mcm1957) Dependencies have been updated
 * (mcm1957) README.md has been translated to english. See README_de.md for (old) german version.
@@ -76,7 +76,6 @@ This is switched every minute and if this switching process is not reported back
 
 * Update accepted device list and test for node v 8
 * Tarvis updated to test right repository
-
 
 ## License
 The MIT License (MIT)

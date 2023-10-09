@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "xs1",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "news": {
+      "1.1.2": {
+        "en": "Adapter requires node 16 or newer now\nDependencies have been updated\nREADME.md has been translated to english. See README_de.md for (old) german version.",
+        "de": "Adapter benötigt node 16 oder neuer\nAbhängigkeiten wurden aktualisiert\nREADME.md wurde auf Englisch übersetzt. Siehe README_de.md für (alte) deutsche Version.",
+        "ru": "Адаптер требует узел 16 или новее сейчас\nВ зависимости были обновлены\nREADME.md переведен на английский. Просмотреть README_de.md для (старой) немецкой версии.",
+        "pt": "Adaptador requer nó 16 ou mais recente agora\nAs dependências foram atualizadas\nREADME.md foi traduzido para inglês. Veja README_de.md para (antigo) versão alemã.",
+        "nl": "Adapter vereist node 16 of Newer nu\nAfhankelijkheid\nDe ambulance is vertaald naar Engels. Zie je rödmd voor de Duitse versie.",
+        "fr": "Adaptateur nécessite 16 ou plus maintenant\nLes dépendances ont été mises à jour\nREADME.md a été traduit en anglais. Voir README_de.md pour ancienne version allemande.",
+        "it": "Adattatore richiede nodo 16 o più nuovo ora\nLe dipendenze sono state aggiornate\nREADME.md è stato tradotto in inglese. Vedere README_de.md per (vecchia) versione tedesca.",
+        "es": "Adaptador requiere nodo 16 o más nuevo ahora\nSe han actualizado las dependencias\nREADME.md ha sido traducido al inglés. Vea README_de.md para (old) versión alemana.",
+        "pl": "Adapter wymaga węzła 16 lub nowszego\nZależności zostały zaktualizowane\nREADME.md został przetłumaczony na english. See README_de.md for (old) German version (ang.).",
+        "uk": "Адаптер вимагає вузла 16 або нового\nОновлено залежність\nEnglishDeutschPусский简体中文中國傳統EspañolالعربيةFrançaisελληνικάDanskАнглійскаябългарскиCatalàČeskýEestiSuomiGaeilgeहिन्दीHrvatskiMagyarIndonesiaIcelandicItalianoעברי日本の한국의LietuvosLatvijasмакедонскиMalayMaltiNederlandsNorskPolskiPortuguêsRomânescSlovenskýSlovenskiShqiptarCрпскиSvenskaไทยTürkçeYкраїнськийTiếng việtייִדישKiswahili Див. README_de.md для (старих) німецької версії.",
+        "zh-cn": "现在不需要16个或新的人员。\n已更新了属地\nMEADME.md已被翻译为编辑。 见ReADME_demd for (old) german edition。."
+      },
       "1.1.1": {
         "en": "A crash due to incorrect bindings has been fixed. [#1]\nStandard testenvironment has been added\nDependencies have been updated",
         "de": "Ein Absturz durch falsche Bindungen wurde behoben. #[1]\nStandard-Testenvironment wurde hinzugefügt\nAbhängigkeiten wurden aktualisiert",
