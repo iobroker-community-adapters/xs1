@@ -10,48 +10,53 @@
 
 ## ioBroker adapter zu EZcontrol XS1
 
-  Der Adapter kommuniziert über die RestAPI des XS1 und hängt sich auch 
-  an das XS1 als listener um alle Änderungen sofort an den ioBroker weiterzuleiten.
-  Befehle vom ioBroker werden zuerst mit ack=false gesendet und wenn etwas vom Listener kommt
-  dann passiert das mit ack=true. Man weiß dann zumindest dass XS1 den Befehl gesendet hat.
+The adapter communicates via the XS1's RestAPI and also listens
+to the XS1 o immediately forward all changes to the ioBroker.
+Commands from ioBroker are sent first with ack=false and when something comes from the listener
+then this happens with ack=true. You then at least know that XS1 sent the command.
 
-  Der Adapter scannt alle verfügbaren Sensoren (read-only) und Aktoren (read/write) und verwendet
-  die am XS1 vergebenen Namen.
+The adapter scans and uses all available sensors (read-only) and actuators (read/write).
+It uses the names assigned at the XS1.
 
-  Momentan werden keine Spezialinformationen wie Batterielevel unterstützt da diese dem Listener 
-  leider nicht weitergegeben werden. 
+Currently no special information such as battery level are supported as those are not provided by the listener
+to be passed on.
 
-  Der link ist die gesamte link mit dem man sonst im Heimnetz auf das XS1 zugreifen kann.
-  Momentan ist noch kein Passwort-Zugriff implementiert und damit darf auf dem XS1 kein Passwort gesetzt sein!
+The link is the entire link with which you can otherwise access the XS1 in the home network.
+At the moment no password access has been implemented and therefore no password can be set on the XS1!
 
-  Für Sensoren welche im state eine 'Battery low'-Meldung anzeigen wird ein .LOWBAT-State erzeugt. 
+For sensors that display a 'Battery low' message in the state, a .LOWBAT state is generated.
 
-  Die Copylist erlaubt direktes Gleichschalten zwischen Listener und Aktoren.
-  Damit kann man Aktoren zusammenschalten welche ohne im ioBroker scrips schreiben zu müssen.
-  Also wenn Aktor A von XS! auf ein geht wird auch Aktor B (und C..) auf ein geschaltet.
-  Das ist sinnvoll wenn Aktoren verschiedene Systeme benutzen (Aktor A = FS20, B= AB400, C=HMS) und
-  zusammen geschaltet werden sollen (Ein funksender von FS20 kann dann direkt auch einen AB400 Funkstekdose schalten).
+The copylist allows direct synchronization between listeners and actors.
+This allows you to connect actuators together without having to write scripts in the ioBroker.
+So if actuator A of XS1 switches to on, actuator B (and C..) will also be switched to on.
+This makes sense if actuators use different systems (actuator A = FS20, B = AB400, C = HMS) and
+should be connected together (a radio transmitter from FS20 can then also directly switch an AB400 radio socket).
 
-  Die Syntax ist {"von_a":"auf_b(,auf_c, ...)", "von_b":"auf_c", ....}
-  Die runden klammern zeigen dass mehrere Destinationen mit comma getrennt angegeben werden können.
-  Ein Beispiel von mir: {"UWPumpeT2":"UWPumpe","UWPumpe":"UWPumpeT2","Schalter1":"Licht1,Licht2"}
-  Damit wird der Taster (UWPumpeT2) mit der UWPumpe in beide Richtungen gleichgeschalten 
-  und man braucht im ioBroker nur noch einen Aktor verwenden. 
-  'Schalter1' würde 'Licht1' und 'Licht2' gleichzeitig mitschalten. 
+The syntax to use is {"from_a":"on_b(,on_c, ...)", "from_b":"on_c", ....}.0
+The round brackets show that several destinations can be specified separated by a comma.
+Example: {"UWPumpeT2":"UWPumpe","UWPumpe":"UWPumpeT2","Switch1":"Light1,Light2"}
+This switches the button (UWPumpeT2) to the same level as the UWPump in both directions
+and one only need to use one actuator in ioBroker.
+'Switch1' would switch 'Light1' and 'Light2' at the same time. 
   
-  Für die neu hinzugefügte Watchdog-Funktion sollte im XS1 ein virtueller Aktuator namens 'Watchdog' kreiert werden.
-  Dieser wird jede Minute umgeschaltet und falls 4 Minuten lan dieser Umschaltvorgang nicht zurückgemeldet wird wird der Adapter neu gestartet.
+For the watchdog function, a virtual actuator called 'Watchdog' should be created in the XS1.
+This is switched every minute and if this switching process is not reported back after 4 minutes, the adapter will be restarted.
 
-## Wichtig!-
+## Important!
 
-* Der Adapter benötigt Node >=v6.*! 
-* Einen blinden (aber nicht virtuellen) Aktuator mit dem Namen 'Watchdog' erstellen. 
+* Adapter requires node >=16! 
+* Create a blind (but not virtual) actuator called 'Watchdog'.
 
 ## Changelog
 <!--
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (mcm1957) Adapter requires node 16 or newer now
+* (mcm1957) Dependencies have been updated
+* (mcm1957) README.md has been translated to english. See README_de.md for (old) german version.
+
 ### 1.1.1 (2023-10-09)
 
 * (mcm1957) A crash due to incorrect bindings has been fixed. [#1]
@@ -72,31 +77,6 @@
 * Update accepted device list and test for node v 8
 * Tarvis updated to test right repository
 
-### 0.5.2
-
-* Update variables list and values from XS1 but change values only if they are different than in state not to create false state updates
-
-### 0.5.1
-* Adapter test auf Node 4.x und 6.x für Windows und Linux.
-* Fehler beim ersten Einlesen von boolean states korrigiert.
-
-### 0.5.0 
-* LOWBAT für Sensoren mit Battery low state.
-* Abhängigkeit von 'async' und 'request' entfernt, damit braucht xs1 keine zusätzlichen Module mehr.
-* Watchdog mit XS1-Aktuator implementiert.
-* Cleanup der states wenn sie nicht mehr verwendet werden (und z.B. vom XS1 gelöscht werden)
-
-### 0.4.2
-  Watchdog von 4 Minuten implementiert, wenn 4 Minuten kein Signal vom XS1 kommt wird Adapter gestoppt.
-  jede Minute sendet der Adapter ein Signal an den Aktuator 'Watchdog' der dies bestätigen sollte.
-  iobroker sollte den Adapter dann neu starten.
-
-### 0.4.0
-  Erster öffentliche Version, kann lesen und Aktuatoren schreiben (Befehle absetzten).
-  TODO: Dokumentieren und Batteriestatus polling implementieren.
-
-### 0.1.0
-  Erster Test, Kann nur lesen und mithören
 
 ## License
 The MIT License (MIT)
