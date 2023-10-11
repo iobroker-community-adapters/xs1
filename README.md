@@ -52,6 +52,9 @@ This is switched every minute and if this switching process is not reported back
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (mcm1957) no changes - test only
+
 ### 1.1.2 (2023-10-09)
 * (mcm1957) Adapter requires node 16 or newer now
 * (mcm1957) Dependencies have been updated
