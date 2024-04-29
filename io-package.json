@@ -108,7 +108,7 @@
       {
         "admin": ">=6.13.16"
       }
-    ],
+    ]
   },
   "native": {
     "adresse": "http://XS1",
