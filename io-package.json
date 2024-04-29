@@ -47,7 +47,6 @@
         "de": "Update für Admin3 und Kompatibilität mit neuen js-controller"
       }
     },
-    "title": "EZcontrol XS1 adapter",
     "titleLang": {
       "en": "EZcontrol XS1 adapter",
       "de": "EZcontrol XS1 Adapter",
@@ -83,7 +82,10 @@
       "FS20",
       "FS10"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "main": "xs1.js",
     "icon": "xs1.png",
@@ -91,6 +93,7 @@
     "extIcon": "https://raw.githubusercontent.com/frankjoke/ioBroker.xs1/master/admin/xs1.png",
     "readme": "https://github.com/frankjoke/ioBroker.xs1/blob/master/README.md",
     "loglevel": "info",
+    "tier": 2,
     "mode": "daemon",
     "type": "iot-systems",
     "compact": true,
@@ -98,14 +101,14 @@
     "dataSource": "pull",
     "dependencies": [
       {
-        "js-controller": ">=4.0.24"
+        "js-controller": ">=5.0.19"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=5.1.13"
+        "admin": ">=6.13.16"
       }
-    ]
+    ],
   },
   "native": {
     "adresse": "http://XS1",

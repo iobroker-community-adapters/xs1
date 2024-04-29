@@ -44,7 +44,6 @@ This is switched every minute and if this switching process is not reported back
 
 ## Important!
 
-* Adapter requires node >=16! 
 * Create a blind (but not virtual) actuator called 'Watchdog'.
 
 ## Changelog
@@ -53,7 +52,8 @@ This is switched every minute and if this switching process is not reported back
     ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (mcm1957) ...
+* (mcm1957) Adapter requires node.js >= 18 and js-controller >= 5 now
+* (mcm1957) Dependencies have been updated
 
 ### 1.1.2 (2023-10-09)
 * (mcm1957) Adapter requires node 16 or newer now
@@ -83,7 +83,7 @@ This is switched every minute and if this switching process is not reported back
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2023-2024 iobroker-community-adapters
+Copyright (c) 2023-2024 ioBroker Community Developers <iobroker-community-adapters@gmx.de>  
 Copyright (c) 2016 Frank Joke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
